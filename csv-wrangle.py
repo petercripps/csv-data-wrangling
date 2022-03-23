@@ -9,7 +9,7 @@ import numpy as np
 import sys
 import csv
 from readargs import read_args, read_yaml_file
-from rules import validate_dob, validate_email, validate_uni
+from rules import validate_dob, validate_email, validate_uni, validate_mobile
 
 # Start the program having loaded up parameters into argdict.
 # Parameters:
@@ -68,6 +68,7 @@ def validate_row(row):
     is_valid = validate_dob(row['DOB'])
     is_valid = validate_email(row['Email'])
     is_valid = validate_uni(row['Uni'])
+    is_valid = validate_mobile(str(row['Mobile']))
     
     # Return the row and if it is valid or not as a List.
     return [row, is_valid]
