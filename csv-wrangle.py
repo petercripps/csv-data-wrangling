@@ -12,7 +12,6 @@ from readargs import read_args, read_yaml_file
 from rules import validate_dob, validate_email, validate_uni
 
 config_file = "config.yaml"
-col_names = ['Lname', 'Fname', 'Email', 'OptOut', 'TicketType', 'OrderDate', 'OrderRef', 'RepName', 'RepEmail', 'Confirm', 'DOB', 'Mobile', 'Uni']
 
 # Start the program having loaded up parameters into argdict.
 # Parameters:
@@ -34,13 +33,13 @@ def run_csv_wrangle(argdict):
 # Returns:
 #   List - A list containing the valid df as the first element and invalid df as the second
 def csv_wrangle():
-    print("Wrangling data")
     configdict = read_yaml_file(config_file)
     try:
         # Read CSV data as a panda dataframe
         df1 = pd.read_csv(configdict["path"] + configdict["csv-data"])
 
         # Rename columns to make more manageable
+        col_names = configdict["col_names"]
         df1.columns = col_names
 
         # Iterate through CSV a row at a time and check contents of each column applying approriate rules.
