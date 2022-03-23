@@ -1,0 +1,3 @@
+path: '/Users/petercripps/Code/datasets/'
+csv-data: 'vodbull-data.csv'
+debug: False

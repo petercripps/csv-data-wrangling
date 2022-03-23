@@ -1,0 +1,19 @@
+General usage: 
+csv-wrangle.py list | wrangle [options]
+
+'list' shows the CSV file. 
+
+'wrangle' shows the wrangled file (i.e. the one converted usig the rules that appply to each field)
+
+Options are: 
+-i <file>: String containing file for input data. 
+-o <file>: String containing file for output data.
+
+If no parameters are provided the program will look for a file called 'csv-wrangle.yaml' and will read data from that.
+An example of this file is:
+
+operation: list
+input: 'input.csv'
+output: 'wrangled.csv'
+
+'operation' must be one of: list | wrangle

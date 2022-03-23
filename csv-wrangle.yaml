@@ -1,0 +1,3 @@
+operation: list
+input: 'input.csv'
+output: 'wrangled.csv'
