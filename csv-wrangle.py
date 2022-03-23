@@ -78,7 +78,17 @@ def validate_row(row):
 # Returns:
 #   None
 def csv_list(configdict):
-    print("Listing data")
+    try:
+        # Read CSV data as a panda dataframe
+        df1 = pd.read_csv(configdict["path"] + configdict["csv-data"])
+
+        # Rename columns to make more manageable (names are also in config yaml)
+        col_names = configdict["col_names"]
+        df1.columns = col_names
+        print(df1)
+
+    except FileNotFoundError:
+        print(__file__, "Invalid file or path")
     
 
 ############################
