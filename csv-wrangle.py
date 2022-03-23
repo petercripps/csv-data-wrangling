@@ -11,34 +11,31 @@ import csv
 from readargs import read_args, read_yaml_file
 from rules import validate_dob, validate_email, validate_uni
 
-config_file = "config.yaml"
-
 # Start the program having loaded up parameters into argdict.
 # Parameters:
-#   argdict : Dictionary - A dictionary of values read from the command line 
+#   configdict : Dictionary - A dictionary of values read from the command line or config.yaml 
 # Returns:
 #   None
-def run_csv_wrangle(argdict):
-    if argdict != {}:
-        if argdict["operation"] == "wrangle":
-            csv_wrangle()
-        elif argdict["operation"] == "list":
-            csv_list()
+def run_csv_wrangle(configdict):
+    if configdict != {}:
+        if configdict["operation"] == "wrangle":
+            csv_wrangle(configdict)
+        elif configdict["operation"] == "list":
+            csv_list(configdict)
         else:
-            print(__file__, "Invalid operation: ", argdict["operation"])
+            print(__file__, "Invalid operation: ", configdict["operation"])
 
 # Wrangle a CSV file according to a set of rules.
 # Parameters:
-#   None 
+#   configdict : Dictionary - A dictionary of values read from the command line or config.yaml 
 # Returns:
-#   List - A list containing the valid df as the first element and invalid df as the second
-def csv_wrangle():
-    configdict = read_yaml_file(config_file)
+#   list - A list containing the valid df as the first element and invalid df as the second
+def csv_wrangle(configdict):
     try:
         # Read CSV data as a panda dataframe
         df1 = pd.read_csv(configdict["path"] + configdict["csv-data"])
 
-        # Rename columns to make more manageable
+        # Rename columns to make more manageable (names are also in config yaml)
         col_names = configdict["col_names"]
         df1.columns = col_names
 
@@ -64,7 +61,7 @@ def csv_wrangle():
 # Parameters:
 #   row : Series - The row containing the elements to be validated. 
 # Returns:
-#   List - A list whose first element is a Series and whose second element is a Boolean indicating if the series has any invalid elements.
+#   list - A list whose first element is a Series and whose second element is a Boolean indicating if the series has any invalid elements.
 def validate_row(row):
     # Assume valid until proven otherwise.
     is_valid = True 
@@ -76,10 +73,11 @@ def validate_row(row):
     return [row, is_valid]
 
 # List a CSV file.
-#   None 
+# Parameters:
+#   configdict : Dictionary - A dictionary of values read from the command line or config.yaml 
 # Returns:
 #   None
-def csv_list():
+def csv_list(configdict):
     print("Listing data")
     
 
@@ -90,5 +88,5 @@ if __name__ == "__main__":
 
     # Read command line args and take action depending on the 'operation' 
     # entry of the returned dictionary.
-    argdict = read_args(sys.argv)
-    run_csv_wrangle(argdict)
+    configdict = read_args(sys.argv)
+    run_csv_wrangle(configdict)

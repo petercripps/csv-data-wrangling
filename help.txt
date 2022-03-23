@@ -7,13 +7,17 @@ csv-wrangle.py list | wrangle [options]
 
 Options are: 
 -i <file>: String containing file for input data. 
--o <file>: String containing file for output data.
+-o <file>: String containing file for valid output data.
+-e <file>: String containing file for error output data.
+-p <path>: String containing path for CSV data files.
 
-If no parameters are provided the program will look for a file called 'csv-wrangle.yaml' and will read data from that.
+If no parameters are provided the program will look for a file called 'config.yaml' and will read data from that.
 An example of this file is:
 
+path: '/Users/petercripps/Code/datasets/'
+csv-data: 'vodbull-data.csv'
+csv-vdata: 'vodbull-vdata.csv'
+csv-edata: 'vodbull-edata.csv'
 operation: list
-input: 'input.csv'
-output: 'wrangled.csv'
 
 'operation' must be one of: list | wrangle
