@@ -9,9 +9,9 @@ import numpy as np
 import sys
 import csv
 from readargs import read_args, read_yaml_file
-from rules import validate_dob, validate_email, validate_uni, validate_mobile
+from rules import validate_dob, validate_email, validate_uni, validate_phonenum
 
-# Start the program having loaded up parameters into argdict.
+# Start the program having loaded up parameters into configdict.
 # Parameters:
 #   configdict : Dictionary - A dictionary of values read from the command line or config.yaml 
 # Returns:
@@ -25,7 +25,10 @@ def run_csv_wrangle(configdict):
         else:
             print(__file__, "Invalid operation: ", configdict["operation"])
 
-# Wrangle a CSV file according to a set of rules.
+# Wrangle a CSV file according to a set of rules. Read the CSV into a new Pandas DataFrame, create
+# two additional DataFrames, one for valid rows in the CSV and another for invalid rows. Also set the
+# column names to shorter nouns which will be used for indexing. These can be changed in the YAML
+# but, for now, will need to be modified in code as they are currently hardcoded.
 # Parameters:
 #   configdict : Dictionary - A dictionary of values read from the command line or config.yaml 
 # Returns:
@@ -52,12 +55,12 @@ def csv_wrangle(configdict):
             else:
                 invalid_df.loc[len(invalid_df)] = vrow[0]
             i += 1
-
     except FileNotFoundError:
         print(__file__, "Invalid file or path")
     return [valid_df,invalid_df]
 
-# Validate a single row from a dataframe using approriate rules.
+# Validate a single row from a dataframe using approriate rules. Note the indexes used in the rules
+# will need updating here if they are changed in the config YAML.
 # Parameters:
 #   row : Series - The row containing the elements to be validated. 
 # Returns:
@@ -68,7 +71,7 @@ def validate_row(row):
     is_valid = validate_dob(row['DOB'])
     is_valid = validate_email(row['Email'])
     is_valid = validate_uni(row['Uni'])
-    is_valid = validate_mobile(str(row['Mobile']))
+    is_valid = validate_phonenum(str(row['Mobile']))
     
     # Return the row and if it is valid or not as a List.
     return [row, is_valid]
@@ -86,6 +89,8 @@ def csv_list(configdict):
         # Rename columns to make more manageable (names are also in config yaml)
         col_names = configdict["col_names"]
         df1.columns = col_names
+
+        # Print the DF
         print(df1)
 
     except FileNotFoundError:

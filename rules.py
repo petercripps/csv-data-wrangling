@@ -7,7 +7,7 @@ def validate_dob(dob):
 # Parameters:
 #   email : str - The email to be validated.
 # Returns:
-#   bool
+#   bool - True if valid, False otherwise.
 def validate_email(email):
     if (email.find('@') == -1) or (email.find('.') == -1):
         print(f"Invalid email: {email}")
@@ -17,20 +17,34 @@ def validate_email(email):
 def validate_uni(uni):
     return True
 
-# Test for a valid mobile. Check it has a '0' or a '7' to start and is 11 or 10 digits.
+# Test for a valid phone number. 
 # Parameters:
-#   mobile : str - The mobile to be validated.
+#   num : str - The number to be validated.
 # Returns:
-#   bool
-def validate_mobile(mobile):
+#   bool - True if valid, False otherwise.
+def validate_phonenum(num):
     # Remove whitespace first.
-    smobile = mobile.replace(" ", "")
-    if ((smobile[0] == '0') and (len(smobile) == 11)):
+    snum = num.replace(" ", "")
+    # If start with '0' and 11 digits valid in UK
+    if ((snum[0] == '0') and (len(snum) == 11)):
         return True
-    elif ((smobile[0] == '7') and (len(smobile) == 10)):
+    # If start with '7' and 10 digits valid in UK    
+    elif ((snum[0] == '7') and (len(snum) == 10)):
         return True
-    print(f"Invalid mobile: {mobile}")
+    # If start with '+' check for international numbers    
+    elif (snum[0] == '+'):
+        return (validate_int(snum))
+    print(f"Invalid number: {num}")
     return False
+
+# Test for a valid country code.
+# Check this library: https://stackabuse.com/validating-and-formatting-phone-numbers-in-python/ 
+# Parameters:
+#   snum : str - The number to be validated (stripped of spaces).
+# Returns:
+#   bool - True if valid, False otherwise.
+def validate_int(snum):
+    return True
 
 ##########################
 # Test program starts here
@@ -38,6 +52,6 @@ def validate_mobile(mobile):
 if __name__ == "__main__":
     # execute only if run as a script
     print("Testing...")
-    if False:
-        print("Mobile valid: ", validate_mobile('07801673022'))
+    if True:
+        print("Mobile valid: ", validate_phonenum('07801673022'))
         print("Email valid: ", validate_email('joe@gmail.com'))
