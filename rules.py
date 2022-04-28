@@ -1,3 +1,6 @@
+import phonenumbers
+from phonenumbers import geocoder
+
 # The rules for validating fields in a CSV
 
 def validate_dob(dob):
@@ -17,7 +20,7 @@ def validate_email(email):
 def validate_uni(uni):
     return True
 
-# Test for a valid phone number. 
+# Test for a valid phone number.
 # Parameters:
 #   num : str - The number to be validated.
 # Returns:
@@ -46,12 +49,33 @@ def validate_phonenum(num):
 def validate_int(snum):
     return True
 
+# Test for a valid phone number using the Python package 'Phonenumbers'. 
+# Parameters:
+#   num : str - The number to be validated.
+#   cc : valid ISO country code
+# Returns:
+#   bool - True if valid, False otherwise.
+def validate_phonenum_pn(num, cc):
+    try:
+        parsed_num = phonenumbers.parse(test_num, cc)
+        return phonenumbers.is_valid_number(parsed_num)
+    except:
+        print(f"Invalid number: {num} or CC {cc}")
+        return False    
+    
 ##########################
 # Test program starts here
 ##########################
 if __name__ == "__main__":
     # execute only if run as a script
     print("Testing...")
+    use_pn_pkg = True
     if True:
-        print("Mobile valid: ", validate_phonenum('07801673022'))
+        test_num = '0780167'
+        test_email = 'joe@gmail.com'
+
+        if use_pn_pkg:
+            print("Mobile valid (using pn): ", validate_phonenum_pn(test_num, 'GB'))
+        else:
+            print("Mobile valid: ", validate_phonenum(test_num))        
         print("Email valid: ", validate_email('joe@gmail.com'))

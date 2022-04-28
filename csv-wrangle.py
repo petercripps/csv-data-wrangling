@@ -2,6 +2,7 @@
 # Ensure these packages are installed using pip3:
 # pip3 install numpy
 # pip3 install pandas
+# pip3 install phonenumbers
 # Check using 'pip3 list'
 
 import pandas as pd
