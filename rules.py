@@ -1,6 +1,9 @@
 import phonenumbers
 from phonenumbers import geocoder
 
+unilist = ["University of Birmingham", "Aston University", "BCU", "Loughborough University", "UCL", 
+    "Newman", "Coventry", "Nottingham Trent University", "Sheffield Hallam University", "Warwick University"]
+
 # The rules for validating fields in a CSV
 
 def validate_dob(dob):
@@ -17,8 +20,17 @@ def validate_email(email):
         return False
     return True
 
+# Test for a valid university. Check it is in list of valid universities'.
+# Parameters:
+#   uni : str - The university to be validated.
+# Returns:
+#   bool - True if valid, False otherwise.
 def validate_uni(uni):
-    return True
+    if uni in unilist:
+        return True
+    else:
+        print(f"Invalid university: {uni}")
+        return False
 
 # Test for a valid phone number.
 # Parameters:
@@ -73,9 +85,11 @@ if __name__ == "__main__":
     if True:
         test_num = '0780167'
         test_email = 'joe@gmail.com'
+        test_uni = "University of Birmingham"
 
         if use_pn_pkg:
             print("Mobile valid (using pn): ", validate_phonenum_pn(test_num, 'GB'))
         else:
             print("Mobile valid: ", validate_phonenum(test_num))        
         print("Email valid: ", validate_email('joe@gmail.com'))
+        print("University valid: ", validate_uni(test_uni))

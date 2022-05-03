@@ -2,6 +2,6 @@ path: '/Users/petercripps/Code/datasets/'
 csv-data: 'vodbull-data.csv'
 csv-vdata: 'vodbull-vdata.csv'
 csv-edata: 'vodbull-edata.csv'
-operation: list
+operation: wrangle
 col_names: ['Lname', 'Fname', 'Email', 'OptOut', 'TicketType', 'OrderDate', 'OrderRef', 'RepName', 'RepEmail', 'Confirm', 'DOB', 'Mobile', 'Uni']
 debug: False

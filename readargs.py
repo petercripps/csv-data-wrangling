@@ -77,6 +77,6 @@ def read_yaml_file(yfile):
 if __name__ == "__main__":
     # execute only if run as a script
     print("Testing...")
-    if False:
+    if True:
         args = read_args(sys.argv)
         print(args)
