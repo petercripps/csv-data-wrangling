@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk
-from Vodbull_Buttons import *
 
 root = tk.Tk()
 root.title("Tkinter MessageBox")
