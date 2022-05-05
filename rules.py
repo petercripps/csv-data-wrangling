@@ -83,7 +83,7 @@ if __name__ == "__main__":
     print("Testing...")
     use_pn_pkg = True
     if True:
-        test_num = '0780167'
+        test_num = '+107801674567'
         test_email = 'joe@gmail.com'
         test_uni = "University of Birmingham"
 
