@@ -11,4 +11,4 @@ The following data/config files are used:
 - `config.yaml` config parameters
 - `help.txt` help text.
 
-console.rightline "Irfaan Ali";
+Irfaan Ali
