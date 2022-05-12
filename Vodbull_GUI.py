@@ -32,7 +32,6 @@ help_button = tk.Button(
 )
 
 greeting.pack()
-
 wrangle_button.pack()
 sort_button.pack()
 help_button.pack()
