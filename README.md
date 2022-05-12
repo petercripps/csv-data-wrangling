@@ -10,5 +10,3 @@ The following Python files are used:
 The following data/config files are used:
 - `config.yaml` config parameters
 - `help.txt` help text.
-
-Irfaan Ali
