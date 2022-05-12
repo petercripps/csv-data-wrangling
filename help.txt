@@ -1,23 +1,26 @@
+'Wrangles' a CSV file by checking each field and depending on validity of field according to a rules
+writes the line to a valid CSV file or an error CSV file.
+
 General usage: 
 csv-wrangle.py list | wrangle [options]
 
 'list' shows the CSV file. 
-
-'wrangle' shows the wrangled file (i.e. the one converted usig the rules that appply to each field)
+'wrangle' wrangles the CSV file (i.e. applies rules to each field and writes to a valid or error file)
 
 Options are: 
--i <file>: String containing file for input data. 
--o <file>: String containing file for valid output data.
--e <file>: String containing file for error output data.
--p <path>: String containing path for CSV data files.
+-i <filename>: String containing file for input data. 
+-o <filename>: String containing file for valid output data.
+-e <filename>: String containing file for error output data.
+-p <pathname>: String containing path for CSV data files.
 
 If no parameters are provided the program will look for a file called 'config.yaml' and will read data from that.
 An example of this file is:
 
-path: '/Users/petercripps/Code/datasets/'
-csv-data: 'vodbull-data.csv'
-csv-vdata: 'vodbull-vdata.csv'
-csv-edata: 'vodbull-edata.csv'
-operation: list
-
-'operation' must be one of: list | wrangle
+path: <pathname>>
+csv-data: <filename>
+csv-vdata: <filename>
+csv-edata: <filename>
+operation: 'list' | 'wrangle'
+col_names: [<columnname>, <columnname>]
+unilist: [<uniname>, <uniname>, <uniname>]
+debug: True | False

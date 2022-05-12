@@ -1,10 +1,10 @@
 import phonenumbers
 from phonenumbers import geocoder
 
-unilist = ["University of Birmingham", "Aston University", "BCU", "Loughborough University", "UCL", 
-    "Newman", "Coventry", "Nottingham Trent University", "Sheffield Hallam University", "Warwick University"]
-
 # The rules for validating fields in a CSV
+
+# Set this to True to get debug info out of rules
+debug = False
 
 def validate_dob(dob):
     return True
@@ -16,20 +16,23 @@ def validate_dob(dob):
 #   bool - True if valid, False otherwise.
 def validate_email(email):
     if (email.find('@') == -1) or (email.find('.') == -1):
-        print(f"Invalid email: {email}")
+        if debug:
+            print(f"Invalid email: {email}")
         return False
     return True
 
 # Test for a valid university. Check it is in list of valid universities'.
 # Parameters:
 #   uni : str - The university to be validated.
+#   unilist : str - The list of universities to be checked against.
 # Returns:
 #   bool - True if valid, False otherwise.
-def validate_uni(uni):
+def validate_uni(uni, unilist):
     if uni in unilist:
         return True
     else:
-        print(f"Invalid university: {uni}")
+        if debug:
+            print(f"Invalid university: {uni}")
         return False
 
 # Test for a valid phone number.
@@ -49,7 +52,8 @@ def validate_phonenum(num):
     # If start with '+' check for international numbers    
     elif (snum[0] == '+'):
         return (validate_int(snum))
-    print(f"Invalid number: {num}")
+    if debug:    
+        print(f"Invalid number: {num}")
     return False
 
 # Test for a valid country code.
@@ -82,7 +86,7 @@ if __name__ == "__main__":
     # execute only if run as a script
     print("Testing...")
     use_pn_pkg = True
-    if True:
+    if debug:
         test_num = '+107801674567'
         test_email = 'joe@gmail.com'
         test_uni = "University of Birmingham"

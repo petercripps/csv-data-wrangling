@@ -3,6 +3,7 @@
 # pip3 install numpy
 # pip3 install pandas
 # pip3 install phonenumbers
+# pip3 install pyyaml
 # Check using 'pip3 list'
 
 import pandas as pd
@@ -35,6 +36,8 @@ def run_csv_wrangle(configdict):
 # Returns:
 #   list - A list containing the valid df as the first element and invalid df as the second
 def csv_wrangle(configdict):
+    valid_df = pd.DataFrame()
+    invalid_df = pd.DataFrame()
     try:
         # Read CSV data as a panda dataframe
         df1 = pd.read_csv(configdict["path"] + configdict["csv-data"])
@@ -50,12 +53,15 @@ def csv_wrangle(configdict):
         valid_df = pd.DataFrame(columns = col_names)
         invalid_df = pd.DataFrame(columns = col_names)
         while i < len(df1):
-            vrow = validate_row(df1.loc[i])
+            vrow = validate_row(df1.loc[i], configdict)
             if vrow[1]:
                 valid_df.loc[len(valid_df)] = vrow[0]
             else:
                 invalid_df.loc[len(invalid_df)] = vrow[0]
             i += 1
+        # When done write out the valid and invalid dataframes as CSV files.
+        valid_df.to_csv(configdict["path"] + configdict["csv-vdata"])
+        invalid_df.to_csv(configdict["path"] + configdict["csv-edata"])
     except FileNotFoundError:
         print(__file__, "Invalid file or path")
     return [valid_df,invalid_df]
@@ -64,14 +70,16 @@ def csv_wrangle(configdict):
 # will need updating here if they are changed in the config YAML.
 # Parameters:
 #   row : Series - The row containing the elements to be validated. 
+#   configdict : Dict - Dictionary of config parameters.
 # Returns:
 #   list - A list whose first element is a Series and whose second element is a Boolean indicating if the series has any invalid elements.
-def validate_row(row):
+def validate_row(row, configdict):
     # Assume valid until proven otherwise.
     is_valid = True 
+    # Run the rules one by one
     is_valid = validate_dob(row['DOB'])
     is_valid = validate_email(row['Email'])
-    is_valid = validate_uni(row['Uni'])
+    is_valid = validate_uni(row['Uni'], configdict["unilist"])
     is_valid = validate_phonenum(str(row['Mobile']))
     
     # Return the row and if it is valid or not as a List.

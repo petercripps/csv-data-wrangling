@@ -2,6 +2,7 @@ path: '/Users/petercripps/Code/datasets/'
 csv-data: 'vodbull-data.csv'
 csv-vdata: 'vodbull-vdata.csv'
 csv-edata: 'vodbull-edata.csv'
-operation: wrangle
+operation: 'wrangle'
 col_names: ['Lname', 'Fname', 'Email', 'OptOut', 'TicketType', 'OrderDate', 'OrderRef', 'RepName', 'RepEmail', 'Confirm', 'DOB', 'Mobile', 'Uni']
-debug: False
+unilist: ["University of Birmingham", "Aston University", "BCU", "Loughborough University", "UCL", 
+    "Newman", "Coventry", "Nottingham Trent University", "Sheffield Hallam University", "Warwick University"]
