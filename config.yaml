@@ -1,4 +1,4 @@
-path: '/Users/petercripps/Code/datasets/'
+path: 'C:\Users\DI Guest\Documents\CSV-Data\'
 csv-data: 'vodbull-data.csv'
 csv-vdata: 'vodbull-vdata.csv'
 csv-edata: 'vodbull-edata.csv'

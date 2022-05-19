@@ -1,6 +1,12 @@
+
+from itertools import count
 import tkinter as tk
-from tkinter import ttk
-#from Vodbull_Buttons import showerror, showwarning, showinfo
+from tkinter import EXTENDED, ttk
+from tkinter import *
+from time import strftime 
+import yaml
+from csvwrangle import run_csv_wrangle
+from readargs import read_yaml_file
 
 window = tk.Tk()
 frame = tk.Frame()
@@ -8,7 +14,8 @@ frame.pack()
 greeting = tk.Label(text="Vodbull .CSV Cleaner")
 
 def wrangle_callback():
-    print("Wrangle pressed")
+    configdict = read_yaml_file("config.yaml")
+    run_csv_wrangle(configdict)
 
 wrangle_button = tk.Button(
     text="Wrangle",
@@ -19,12 +26,21 @@ wrangle_button = tk.Button(
     fg="black"
 )
 
-def sort_callback():
-    print("Sort pressed")
+
+
+def sort_box(window):
+    lb = Listbox(window, selectmode=EXTENDED, width=10)
+    lb.grid(column=3, row=0, rowspan=4)
+    count = 0
+    for entry in col_names :
+        sb.insert(count, entry)
+        count +=1
+    return lb
+
 
 sort_button = tk.Button(
     text="Sort",
-    command=sort_callback,
+    command=sort_box,
     width=10,
     height=1,
     bg="grey",
@@ -51,6 +67,10 @@ quit_button = tk.Button(
     bg="grey",
     fg="black"
 )
+
+
+
+
 
 greeting.pack()
 wrangle_button.pack()
