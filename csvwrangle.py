@@ -59,6 +59,9 @@ def csv_wrangle(configdict):
             else:
                 invalid_df.loc[len(invalid_df)] = vrow[0]
             i += 1
+        if configdict['sort'] != "":
+            valid_df = csv_sort(configdict['sort'], valid_df)
+            invalid_df = csv_sort(configdict['sort'], invalid_df)
         # When done write out the valid and invalid dataframes as CSV files.
         valid_df.to_csv(configdict["path"] + configdict["csv-vdata"])
         invalid_df.to_csv(configdict["path"] + configdict["csv-edata"])
@@ -84,6 +87,19 @@ def validate_row(row, configdict):
     
     # Return the row and if it is valid or not as a List.
     return [row, is_valid]
+
+# Sort a DataFrame
+# Parameters
+#   sort_by: String - Column name to be sorted by
+#   df: DataFrame - DataFrame to be sorted
+# Returns:
+#   DataFrame - Sorted DataFrame
+def csv_sort(sort_by, df):
+    try:
+        df.sort_values(by=[sort_by], inplace=True)
+    except KeyError:
+        print(__file__, "Invalid key: ", sort_by)
+    return df
 
 # List a CSV file.
 # Parameters:
