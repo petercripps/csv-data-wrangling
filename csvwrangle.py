@@ -13,6 +13,9 @@ import csv
 from readargs import read_args, read_yaml_file
 from rules import validate_dob, validate_email, validate_uni, validate_phonenum
 
+# Set this to True to get debug info out of this file
+debug = False
+
 # Start the program having loaded up parameters into configdict.
 # Parameters:
 #   configdict : Dictionary - A dictionary of values read from the command line or config.yaml 
@@ -42,7 +45,7 @@ def csv_wrangle(configdict):
         # Read CSV data as a panda dataframe
         df1 = pd.read_csv(configdict["path"] + configdict["csv-data"])
 
-        # Rename columns to make more manageable (names are also in config yaml)
+        # Rename columns to make more manageable (names are in config yaml)
         col_names = configdict["col_names"]
         df1.columns = col_names
 
@@ -53,18 +56,19 @@ def csv_wrangle(configdict):
         valid_df = pd.DataFrame(columns = col_names)
         invalid_df = pd.DataFrame(columns = col_names)
         while i < len(df1):
-            vrow = validate_row(df1.loc[i], configdict)
+            vrow = validate_row(i, df1.loc[i], configdict)
             if vrow[1]:
                 valid_df.loc[len(valid_df)] = vrow[0]
             else:
                 invalid_df.loc[len(invalid_df)] = vrow[0]
             i += 1
+        # sort the output files if sort parameter defined
         if configdict['sort'] != "":
             valid_df = csv_sort(configdict['sort'], valid_df)
             invalid_df = csv_sort(configdict['sort'], invalid_df)
         # When done write out the valid and invalid dataframes as CSV files.
-        valid_df.to_csv(configdict["path"] + configdict["csv-vdata"])
-        invalid_df.to_csv(configdict["path"] + configdict["csv-edata"])
+        valid_df.to_csv(configdict["path"] + configdict["csv-vdata"], index=False)
+        invalid_df.to_csv(configdict["path"] + configdict["csv-edata"], index=False)
     except FileNotFoundError:
         print(__file__, "Invalid file or path")
     return [valid_df,invalid_df]
@@ -72,21 +76,23 @@ def csv_wrangle(configdict):
 # Validate a single row from a dataframe using approriate rules. Note the indexes used in the rules
 # will need updating here if they are changed in the config YAML.
 # Parameters:
+#   rownum : Integer - Number of row in file
 #   row : Series - The row containing the elements to be validated. 
 #   configdict : Dict - Dictionary of config parameters.
 # Returns:
 #   list - A list whose first element is a Series and whose second element is a Boolean indicating if the series has any invalid elements.
-def validate_row(row, configdict):
-    # Assume valid until proven otherwise.
-    is_valid = True 
+def validate_row(rownum, row, configdict):
     # Run the rules one by one
-    is_valid = validate_dob(row['DOB'])
-    is_valid = validate_email(row['Email'])
-    is_valid = validate_uni(row['Uni'], configdict["unilist"])
-    is_valid = validate_phonenum(str(row['Mobile']))
-    
-    # Return the row and if it is valid or not as a List.
-    return [row, is_valid]
+    if (validate_dob(row["DOB"]) and 
+        validate_email(row["Email"]) and 
+        validate_email(row["Email"]) and 
+        validate_uni(row["Uni"], configdict["unilist"]) and 
+        validate_phonenum(row["Mobile"])):
+        return [row, True]
+    else:
+        if debug:
+            print(f"Row {rownum} is invalid")
+        return [row, False]
 
 # Sort a DataFrame
 # Parameters

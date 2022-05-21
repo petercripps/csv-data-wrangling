@@ -1,5 +1,7 @@
 import phonenumbers
+import math
 from phonenumbers import geocoder
+from readargs import read_yaml_file
 
 # The rules for validating fields in a CSV
 
@@ -28,7 +30,9 @@ def validate_email(email):
 # Returns:
 #   bool - True if valid, False otherwise.
 def validate_uni(uni, unilist):
-    if uni in unilist:
+    if debug:
+        print(f"University: {uni} type: {type(uni)}")    
+    if (uni in unilist):
         return True
     else:
         if debug:
@@ -41,9 +45,14 @@ def validate_uni(uni, unilist):
 # Returns:
 #   bool - True if valid, False otherwise.
 def validate_phonenum(num):
-    # Remove whitespace first.
+    # First check we have a number (i.e. not a NaN)
+    if math.isnan(num):
+        return False
+    # Noe ensure the number is first an int then a str
+    num = str(int(num))
+    # Now remove whitespace.
     snum = num.replace(" ", "")
-    # If start with '0' and 11 digits valid in UK
+    # If starts with '0' and 11 digits valid in UK
     if ((snum[0] == '0') and (len(snum) == 11)):
         return True
     # If start with '7' and 10 digits valid in UK    
@@ -85,15 +94,14 @@ def validate_phonenum_pn(num, cc):
 if __name__ == "__main__":
     # execute only if run as a script
     print("Testing...")
-    use_pn_pkg = True
+    use_pn_pkg = False
     if debug:
-        test_num = '+107801674567'
-        test_email = 'joe@gmail.com'
-        test_uni = "University of Birmingham"
+        row = ['joe@gmail.com','+107801674567',"UCL"]
+        configdict = read_yaml_file("config.yaml")
 
         if use_pn_pkg:
-            print("Mobile valid (using pn): ", validate_phonenum_pn(test_num, 'GB'))
+            print("Mobile valid (using pn): ", validate_phonenum_pn(row[1], 'GB'))
         else:
-            print("Mobile valid: ", validate_phonenum(test_num))        
-        print("Email valid: ", validate_email('joe@gmail.com'))
-        print("University valid: ", validate_uni(test_uni))
+            print("Mobile valid: ", validate_phonenum(row[1]))        
+        print("Email valid: ", validate_email(row[0]))
+        print("University valid: ", validate_uni(row[2],configdict["unilist"]))

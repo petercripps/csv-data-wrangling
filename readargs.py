@@ -48,6 +48,9 @@ def read_args(args):
             elif args[i] == '-p':
                 configdict["path"] = args[i + 1]
                 i += 1
+            elif args[i] == '-s':
+                configdict["sort"] = args[i + 1]
+                i += 1
             else:
                 print("Unknown argument", args[i])
             i += 1    

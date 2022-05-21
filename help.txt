@@ -12,6 +12,7 @@ Options are:
 -o <filename>: String containing file for valid output data.
 -e <filename>: String containing file for error output data.
 -p <pathname>: String containing path for CSV data files.
+-s <col>: String containing a valid column name to sort rows by.       
 
 If no parameters are provided the program will look for a file called 'config.yaml' and will read data from that.
 An example of this file is:
@@ -23,4 +24,4 @@ csv-edata: <filename>
 operation: 'list' | 'wrangle'
 col_names: [<columnname>, <columnname>]
 unilist: [<uniname>, <uniname>, <uniname>]
-debug: True | False
+sort: <col>
