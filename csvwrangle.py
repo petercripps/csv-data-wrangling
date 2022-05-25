@@ -83,7 +83,7 @@ def csv_wrangle(configdict):
 #   list - A list whose first element is a Series and whose second element is a Boolean indicating if the series has any invalid elements.
 def validate_row(rownum, row, configdict):
     # Run the rules one by one
-    if (validate_dob(row["DOB"]) and 
+    if (validate_dob(row["DOB"],18) and 
         validate_email(row["Email"]) and 
         validate_email(row["Email"]) and 
         validate_uni(row["Uni"], configdict["unilist"]) and 

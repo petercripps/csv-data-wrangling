@@ -1,5 +1,6 @@
 import phonenumbers
 import math
+from datetime import date, datetime
 from phonenumbers import geocoder
 from readargs import read_yaml_file
 
@@ -8,8 +9,29 @@ from readargs import read_yaml_file
 # Set this to True to get debug info out of rules
 debug = False
 
-def validate_dob(dob):
-    return True
+# Test for required age based on Date of birth (DoB). 
+# Valid if current date minus DoB >= age specified.
+# Parameters:
+#   dob : str - The date of birth to be validated.
+#   age : int - age to check
+# Returns:
+#   bool - True if valid, False otherwise.
+def validate_dob(dob, age):
+    try:
+        # Convert string dob to a datetime object
+        born = datetime.strptime(str(dob), '%d/%m/%Y')
+        # Convert datetime object to a date object
+        born = born.date()
+        # Get today's date
+        today = date.today()
+        # Calculcate age
+        calc_age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+        if debug:
+            print(f"DoB: {born} age: {calc_age}")
+        return calc_age >= age
+    except:
+        print(f"Invalid date {dob}")
+        return False
 
 # Test for a valid email. Check it has a '@' and a '.'.
 # Parameters:
@@ -29,9 +51,8 @@ def validate_email(email):
 #   unilist : str - The list of universities to be checked against.
 # Returns:
 #   bool - True if valid, False otherwise.
-def validate_uni(uni, unilist):
-    if debug:
-        print(f"University: {uni} type: {type(uni)}")    
+def validate_uni(uni, unilist): 
+    uni = str(uni).replace(" ", "")
     if (uni in unilist):
         return True
     else:
@@ -45,25 +66,26 @@ def validate_uni(uni, unilist):
 # Returns:
 #   bool - True if valid, False otherwise.
 def validate_phonenum(num):
-    # First check we have a number (i.e. not a NaN)
-    if math.isnan(num):
+    try:
+        # Now ensure the number is first an int then a str
+        num = str(int(num))
+        # Now remove whitespace.
+        snum = num.replace(" ", "")
+        # If starts with '0' and 11 digits valid in UK
+        if ((snum[0] == '0') and (len(snum) == 11)):
+            return True
+        # If start with '7' and 10 digits valid in UK    
+        elif ((snum[0] == '7') and (len(snum) == 10)):
+            return True
+        # If start with '+' check for international numbers    
+        elif (snum[0] == '+'):
+            return (validate_int(snum))
+        if debug:    
+            print(f"Invalid number: {num}")
         return False
-    # Noe ensure the number is first an int then a str
-    num = str(int(num))
-    # Now remove whitespace.
-    snum = num.replace(" ", "")
-    # If starts with '0' and 11 digits valid in UK
-    if ((snum[0] == '0') and (len(snum) == 11)):
-        return True
-    # If start with '7' and 10 digits valid in UK    
-    elif ((snum[0] == '7') and (len(snum) == 10)):
-        return True
-    # If start with '+' check for international numbers    
-    elif (snum[0] == '+'):
-        return (validate_int(snum))
-    if debug:    
-        print(f"Invalid number: {num}")
-    return False
+    except:
+        print(f"Invalid phone num {num}")
+        return False
 
 # Test for a valid country code.
 # Check this library: https://stackabuse.com/validating-and-formatting-phone-numbers-in-python/ 
@@ -82,7 +104,7 @@ def validate_int(snum):
 #   bool - True if valid, False otherwise.
 def validate_phonenum_pn(num, cc):
     try:
-        parsed_num = phonenumbers.parse(test_num, cc)
+        parsed_num = phonenumbers.parse(num, cc)
         return phonenumbers.is_valid_number(parsed_num)
     except:
         print(f"Invalid number: {num} or CC {cc}")
@@ -94,14 +116,15 @@ def validate_phonenum_pn(num, cc):
 if __name__ == "__main__":
     # execute only if run as a script
     print("Testing...")
-    use_pn_pkg = False
+    use_pn_pkg = True
     if debug:
-        row = ['joe@gmail.com','+107801674567',"UCL"]
+        row = ['joe@gmail.com',"07801673022","UCL","12/05/2001"]
         configdict = read_yaml_file("config.yaml")
 
         if use_pn_pkg:
-            print("Mobile valid (using pn): ", validate_phonenum_pn(row[1], 'GB'))
+            print(f"Mobile {row[1]} valid (using pn) = {validate_phonenum_pn(row[1],'GB')}")
         else:
-            print("Mobile valid: ", validate_phonenum(row[1]))        
-        print("Email valid: ", validate_email(row[0]))
-        print("University valid: ", validate_uni(row[2],configdict["unilist"]))
+            print(f"Mobile {row[1]} valid = {validate_phonenum(row[1])}")        
+        print(f"Email {row[0]} valid = {validate_email(row[0])}")
+        print(f"University {row[2]} valid = {validate_uni(row[2],configdict['unilist'])}")
+        print(f"DOB {row[3]} valid = {validate_dob(row[3],22)}")
