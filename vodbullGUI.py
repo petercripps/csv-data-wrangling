@@ -3,7 +3,6 @@ from ast import Constant
 from cgitb import text
 from itertools import count
 from logging import root
-from msilib.schema import File
 import tkinter as tk
 from tkinter import EXTENDED, ttk
 from tkinter import *
@@ -78,11 +77,11 @@ def file_select():
     if file:
         filepath = os.path.abspath(file.name)
         file_label = tk.Label(
-            text=filepath,
+            text="Your CSV file is located in:" + str(filepath),
             fg="black",
             bg="#F2F2F2",
-            width=40,
-            height=4,
+            width=60,
+            height=5,
 ).pack()
     
     
