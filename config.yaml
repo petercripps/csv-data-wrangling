@@ -2,8 +2,11 @@
 operation: 'wrangle'
 # Set the path/folder where files will be and the file names
 path: '/Users/petercripps/Code/datasets/'
+# input file name
 csv-data: 'vodbull-data2.csv'
+# valid output file name
 csv-vdata: 'vodbull-vdata.csv'
+# error output file name
 csv-edata: 'vodbull-edata.csv'
 
 # col_names must be added from this list and mapped appropriately:
