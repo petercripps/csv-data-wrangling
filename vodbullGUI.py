@@ -3,7 +3,6 @@ from ast import Constant
 from cgitb import text
 from itertools import count
 from logging import root
-from msilib.schema import File
 import tkinter as tk
 from tkinter import EXTENDED, ttk
 from tkinter import *
@@ -27,6 +26,7 @@ window.geometry("600x300")
 
 def wrangle_callback():
     configdict = read_yaml_file("config.yaml")
+    configdict["path"] = filepath
     run_csv_wrangle(configdict)
 
 wrangle_button = tk.Button(
