@@ -78,11 +78,11 @@ def file_select():
     if file:
         filepath = os.path.abspath(file.name)
         file_label = tk.Label(
-            text=filepath,
+            text="Your CSV file is located in:" + str(filepath),
             fg="black",
             bg="#F2F2F2",
-            width=40,
-            height=4,
+            width=60,
+            height=5,
 ).pack()
     
     
