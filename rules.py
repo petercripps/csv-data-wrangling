@@ -118,7 +118,7 @@ if __name__ == "__main__":
     print("Testing...")
     use_pn_pkg = True
     if debug:
-        row = ['joe@gmail.com',"07801673022","UCL","12/05/2001"]
+        row = ['joe@gmail.com',"00447016730224","UCL","28/05/2004"]
         configdict = read_yaml_file("config.yaml")
 
         if use_pn_pkg:
