@@ -6,8 +6,8 @@ from readargs import read_yaml_file
 
 # The rules for validating fields in a CSV
 
-# Set this to True to get debug info out of rules
-debug = False
+# Set this to True to get more info out of rule failures
+verbose = False
 
 # Test for required age based on Date of birth (DoB). 
 # Valid if current date minus DoB >= age specified.
@@ -26,11 +26,14 @@ def validate_dob(dob, age):
         today = date.today()
         # Calculcate age
         calc_age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
-        if debug:
-            print(f"DoB: {born} age: {calc_age}")
-        return calc_age >= age
+        if calc_age >= age:
+            return True
+        else:
+            if verbose:
+                print(f"Invalid DoB {dob} for {age}")
+            return False
     except:
-        print(f"Invalid date {dob}")
+        print(f"EXCEPTION Invalid DoB: {dob}")
         return False
 
 # Test for a valid email. Check it has a '@' and a '.'.
@@ -40,7 +43,7 @@ def validate_dob(dob, age):
 #   bool - True if valid, False otherwise.
 def validate_email(email):
     if (email.find('@') == -1) or (email.find('.') == -1):
-        if debug:
+        if verbose:
             print(f"Invalid email: {email}")
         return False
     return True
@@ -56,7 +59,7 @@ def validate_uni(uni, unilist):
     if (uni in unilist):
         return True
     else:
-        if debug:
+        if verbose:
             print(f"Invalid university: {uni}")
         return False
 
@@ -67,24 +70,22 @@ def validate_uni(uni, unilist):
 #   bool - True if valid, False otherwise.
 def validate_phonenum(num):
     try:
-        # Now ensure the number is first an int then a str
-        num = str(int(num))
-        # Now remove whitespace.
-        snum = num.replace(" ", "")
+        # First remove whitespace.
+        num = num.replace(" ", "")
         # If starts with '0' and 11 digits valid in UK
-        if ((snum[0] == '0') and (len(snum) == 11)):
+        if ((num[0] == '0') and (len(num) == 11)):
             return True
         # If start with '7' and 10 digits valid in UK    
-        elif ((snum[0] == '7') and (len(snum) == 10)):
+        elif ((num[0] == '7') and (len(num) == 10)):
             return True
         # If start with '+' check for international numbers    
-        elif (snum[0] == '+'):
-            return (validate_int(snum))
-        if debug:    
-            print(f"Invalid number: {num}")
+        elif (num[0] == '+'):
+            return (validate_int(num))   
+        if verbose:
+            print(f"Invalid phone number: {num}")
         return False
     except:
-        print(f"Invalid phone num {num}")
+        print(f"EXCEPTION Invalid phone number {num}")
         return False
 
 # Test for a valid country code.
@@ -107,7 +108,7 @@ def validate_phonenum_pn(num, cc):
         parsed_num = phonenumbers.parse(num, cc)
         return phonenumbers.is_valid_number(parsed_num)
     except:
-        print(f"Invalid number: {num} or CC {cc}")
+        print(f"EXCEPTION Invalid number: {num} or CC {cc}")
         return False    
     
 ##########################
@@ -116,9 +117,9 @@ def validate_phonenum_pn(num, cc):
 if __name__ == "__main__":
     # execute only if run as a script
     print("Testing...")
-    use_pn_pkg = True
-    if debug:
-        row = ['joe@gmail.com',"00447016730224","UCL","28/05/2004"]
+    use_pn_pkg = False
+    if verbose:
+        row = ['joe@gmail.com',"07016730224","UCL","28/05/2004"]
         configdict = read_yaml_file("config.yaml")
 
         if use_pn_pkg:
@@ -127,4 +128,4 @@ if __name__ == "__main__":
             print(f"Mobile {row[1]} valid = {validate_phonenum(row[1])}")        
         print(f"Email {row[0]} valid = {validate_email(row[0])}")
         print(f"University {row[2]} valid = {validate_uni(row[2],configdict['unilist'])}")
-        print(f"DOB {row[3]} valid = {validate_dob(row[3],22)}")
+        print(f"DoB {row[3]} valid = {validate_dob(row[3],22)}")

@@ -17,4 +17,4 @@ col_names: ['Lname', 'Fname', 'Email', 'OptOut', 'TicketType', 'OrderDate', 'Ord
 # Add valid university names in this list
 unilist: ["University of Birmingham", "UoB", "Aston", "BCU", "Loughborough University", "UCL", "Newman", "Coventry", "Nottingham Trent University", "Sheffield Hallam University", "Warwick University"]
 # Define how to sort columns, must be a name from 'col_names'
-sort: 'Email'
+sort: 'Uni'

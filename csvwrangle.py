@@ -42,8 +42,8 @@ def csv_wrangle(configdict):
     valid_df = pd.DataFrame()
     invalid_df = pd.DataFrame()
     try:
-        # Read CSV data as a panda dataframe
-        df1 = pd.read_csv(configdict["path"] + configdict["csv-data"])
+        # Read CSV data as a panda dataframe. Use dtype=object to preserve and not interpret dtype
+        df1 = pd.read_csv(configdict["path"] + configdict["csv-data"],dtype=object)
 
         # Rename columns to make more manageable (names are in config yaml)
         col_names = configdict["col_names"]
@@ -84,8 +84,7 @@ def csv_wrangle(configdict):
 def validate_row(rownum, row, configdict):
     # Run the rules one by one
     if (validate_dob(row["DOB"],18) and 
-        validate_email(row["Email"]) and 
-        validate_email(row["Email"]) and 
+        validate_email(row["Email"]) and  
         validate_uni(row["Uni"], configdict["unilist"]) and 
         validate_phonenum(row["Mobile"])):
         return [row, True]
