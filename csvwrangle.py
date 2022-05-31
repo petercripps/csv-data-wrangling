@@ -13,8 +13,8 @@ import csv
 from readargs import read_args, read_yaml_file
 from rules import validate_dob, validate_email, validate_uni, validate_phonenum
 
-# Set this to True to get debug info out of this file
-debug = False
+# Set this to True to get additional info out of this file
+verbose = False
 
 # Start the program having loaded up parameters into configdict.
 # Parameters:
@@ -83,14 +83,15 @@ def csv_wrangle(configdict):
 #   list - A list whose first element is a Series and whose second element is a Boolean indicating if the series has any invalid elements.
 def validate_row(rownum, row, configdict):
     # Run the rules one by one
-    if (validate_dob(row["DOB"],18) and 
-        validate_email(row["Email"]) and  
-        validate_uni(row["Uni"], configdict["unilist"]) and 
-        validate_phonenum(row["Mobile"])):
+    valid_dob = validate_dob(row["DOB"],18)
+    valid_email = validate_email(row["Email"])  
+    valid_uni = validate_uni(row["Uni"], configdict["unilist"])
+    valid_pn = validate_phonenum(row["Mobile"])
+    if (valid_dob and valid_email and valid_uni and valid_pn):
         return [row, True]
     else:
-        if debug:
-            print(f"Row {rownum} is invalid")
+        if verbose:
+            print(f"Invalid row {rownum} DOB: {valid_dob} Email: {valid_email} Uni: {valid_uni} Phonenum: {valid_pn}")
         return [row, False]
 
 # Sort a DataFrame
