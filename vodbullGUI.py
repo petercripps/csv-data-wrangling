@@ -11,9 +11,8 @@ import os
 from time import strftime
 from turtle import width
 from numpy import blackman 
-import yaml
+import config
 from csvwrangle import run_csv_wrangle
-from readargs import read_yaml_file
 import os
 window = tk.Tk()
 window.title(" Vodbull .CSV Cleaner ")
@@ -24,9 +23,8 @@ border_effects = {
 "sunken": tk.SUNKEN}
 
 def wrangle_callback():
-    configdict = read_yaml_file("config.yaml")
-    configdict["path"] = filepath
-    run_csv_wrangle(configdict)
+    config.configdict["path"] = filepath
+    run_csv_wrangle()
 
 wrangle_button = tk.Button(
     text="Wrangle",
