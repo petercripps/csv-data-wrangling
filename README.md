@@ -6,6 +6,7 @@ The following Python files are used:
 - `readargs.py` reads command line arguments prior to executing wrangle function.
 - `rules.py` are the rules that check the fields in the CSV file.
 - `help.py` runs the help function.
+- `config.py` contains globals for application
 - `vodbullGUI` UI for CSV Wrangle
 
 The following data/config files are used:
