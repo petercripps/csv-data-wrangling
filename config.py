@@ -1,7 +1,7 @@
 import yaml
+import sys
 
 yfile = "config.yaml"
-configdict = {}
 
 def init_config():
     try:
@@ -9,6 +9,7 @@ def init_config():
             return (yaml.load(f, Loader=yaml.FullLoader))
     except:
         print(f"ERROR YAML file error: {yfile}")
+        sys.exit("FATAL ERROR Cannot continue")
         return {}
 
 configdict = init_config()

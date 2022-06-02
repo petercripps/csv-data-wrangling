@@ -1,9 +1,13 @@
 # Print help from the help.txt file
 def print_help():
-    hfile = open("help.txt")
-    content = hfile.read()
-    hfile.close()
-    print(content)
+    helpfile = "help.txt"
+    try:
+        hfile = open(helpfile)
+        content = hfile.read()
+        hfile.close()
+        print(content)
+    except:
+        print(f"ERROR Invalid or missing help file {helpfile}")
 
 ##########################
 # Test program starts here
