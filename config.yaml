@@ -6,9 +6,9 @@ path: '/Users/petercripps/Code/datasets/'
 csv-data: 'vodbull-data2.csv'
 # valid output file name
 csv-vdata: 'vodbull-vdata.csv'
-# error output file name
+# error output file name (leave as null string if all output to go to one file)
+# csv-edata: ""
 csv-edata: 'vodbull-edata.csv'
-
 # col_names must be added from this list and mapped appropriately:
 # 'Lname', 'Fname', 'Email', 'OptOut', 'TicketType', 'OrderDate', 'OrderRef', 'RepName', 
 # 'RepEmail', 'Confirm', 'DOB', 'Mobile', 'Uni', 'UniYear'
@@ -18,3 +18,5 @@ col_names: ['Lname', 'Fname', 'Email', 'OptOut', 'TicketType', 'OrderDate', 'Ord
 unilist: ["University of Birmingham", "UoB", "Aston", "BCU", "Loughborough University", "UCL", "Newman", "Coventry", "Nottingham Trent University", "Sheffield Hallam University", "Warwick University"]
 # Define how to sort columns, must be a name from 'col_names'
 sort: 'Uni'
+# Set to True to get more info
+verbose: False

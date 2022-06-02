@@ -1,18 +1,21 @@
-'Wrangles' a CSV file by checking each field and depending on validity of field according to a rules
-writes the line to a valid CSV file or an error CSV file.
+'Wrangles' a CSV file by checking each field and depending on validity of field according to a set of
+rules writes the line to another CSV file.
 
 General usage: 
 csv-wrangle.py list | wrangle [options]
 
 'list' shows the CSV file. 
-'wrangle' wrangles the CSV file (i.e. applies rules to each field and writes to a valid or error file)
+'wrangle' wrangles the CSV file (i.e. applies rules to each field and writes to another CSV file)
 
 Options are: 
 -i <filename>: String containing file for input data. 
 -o <filename>: String containing file for valid output data.
 -e <filename>: String containing file for error output data.
 -p <pathname>: String containing path for CSV data files.
--s <col>: String containing a valid column name to sort rows by.       
+-s <col>: String containing a valid column name to sort rows by.
+-v <verbose> Boolean set to True to get extra info out of application      
+
+If error output filename is set to a null string then all output is written to the valid output file only.
 
 If no parameters are provided the program will look for a file called 'config.yaml' and will read data from that.
 An example of this file is:
@@ -25,3 +28,4 @@ operation: 'list' | 'wrangle'
 col_names: [<columnname>, <columnname>]
 unilist: [<uniname>, <uniname>, <uniname>]
 sort: <col>
+verbose: True

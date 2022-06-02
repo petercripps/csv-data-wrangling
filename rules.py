@@ -1,13 +1,13 @@
 import phonenumbers
 import math
+import config
 from datetime import date, datetime
 from phonenumbers import geocoder
-from readargs import read_yaml_file
 
 # The rules for validating fields in a CSV
 
-# Set this to True to get more info out of rule failures
-verbose = False
+# Set verbose to True to get more info out of rule failures
+verbose = config.configdict["verbose"]
 
 # Test for required age based on Date of birth (DoB). 
 # Valid if current date minus DoB >= age specified.
@@ -33,7 +33,8 @@ def validate_dob(dob, age):
                 print(f"Invalid DoB {dob} for {age}")
             return False
     except:
-        print(f"EXCEPTION Invalid DoB: {dob}")
+        if verbose:    
+            print(f"ERROR Invalid DoB: {dob}")
         return False
 
 # Test for a valid email. Check it has a '@' and a '.'.
@@ -51,12 +52,11 @@ def validate_email(email):
 # Test for a valid university. Check it is in list of valid universities'.
 # Parameters:
 #   uni : str - The university to be validated.
-#   unilist : str - The list of universities to be checked against.
 # Returns:
 #   bool - True if valid, False otherwise.
-def validate_uni(uni, unilist): 
+def validate_uni(uni): 
     uni = str(uni).replace(" ", "")
-    if (uni in unilist):
+    if (uni in config.configdict['unilist']):
         return True
     else:
         if verbose:
@@ -85,7 +85,8 @@ def validate_phonenum(num):
             print(f"Invalid phone number: {num}")
         return False
     except:
-        print(f"EXCEPTION Invalid phone number {num}")
+        if verbose:
+            print(f"ERROR Invalid phone number {num}")
         return False
 
 # Test for a valid country code.
@@ -108,7 +109,8 @@ def validate_phonenum_pn(num, cc):
         parsed_num = phonenumbers.parse(num, cc)
         return phonenumbers.is_valid_number(parsed_num)
     except:
-        print(f"EXCEPTION Invalid number: {num} or CC {cc}")
+        if verbose:
+            print(f"ERROR Invalid number: {num} or CC {cc}")
         return False    
     
 ##########################
@@ -120,12 +122,11 @@ if __name__ == "__main__":
     use_pn_pkg = False
     if verbose:
         row = ['joe@gmail.com',"07016730224","UCL","28/05/2004"]
-        configdict = read_yaml_file("config.yaml")
 
         if use_pn_pkg:
             print(f"Mobile {row[1]} valid (using pn) = {validate_phonenum_pn(row[1],'GB')}")
         else:
             print(f"Mobile {row[1]} valid = {validate_phonenum(row[1])}")        
         print(f"Email {row[0]} valid = {validate_email(row[0])}")
-        print(f"University {row[2]} valid = {validate_uni(row[2],configdict['unilist'])}")
+        print(f"University {row[2]} valid = {validate_uni(row[2])}")
         print(f"DoB {row[3]} valid = {validate_dob(row[3],22)}")
