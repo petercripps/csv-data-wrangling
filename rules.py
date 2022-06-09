@@ -1,13 +1,12 @@
+########################################################################
+# rules.py
+# The rules for validating fields in a CSV.
+#######################################################################
 import phonenumbers
 import math
 import config
 from datetime import date, datetime
 from phonenumbers import geocoder
-
-# The rules for validating fields in a CSV
-
-# Set verbose to True to get more info out of rule failures
-verbose = config.configdict["verbose"]
 
 # Test for required age based on Date of birth (DoB). 
 # Valid if current date minus DoB >= age specified.
@@ -29,11 +28,11 @@ def validate_dob(dob, age):
         if calc_age >= age:
             return True
         else:
-            if verbose:
+            if config.configdict["verbose"]:
                 print(f"Invalid DoB {dob} for {age}")
             return False
     except:
-        if verbose:    
+        if config.configdict["verbose"]:    
             print(f"ERROR Invalid DoB: {dob}")
         return False
 
@@ -44,7 +43,7 @@ def validate_dob(dob, age):
 #   bool - True if valid, False otherwise.
 def validate_email(email):
     if (email.find('@') == -1) or (email.find('.') == -1):
-        if verbose:
+        if config.configdict["verbose"]:
             print(f"Invalid email: {email}")
         return False
     return True
@@ -59,7 +58,7 @@ def validate_uni(uni):
     if (uni in config.configdict['unilist']):
         return True
     else:
-        if verbose:
+        if config.configdict["verbose"]:
             print(f"Invalid university: {uni}")
         return False
 
@@ -81,11 +80,11 @@ def validate_phonenum(num):
         # If start with '+' check for international numbers    
         elif (num[0] == '+'):
             return (validate_int(num))   
-        if verbose:
+        if config.configdict["verbose"]:
             print(f"Invalid phone number: {num}")
         return False
     except:
-        if verbose:
+        if config.configdict["verbose"]:
             print(f"ERROR Invalid phone number {num}")
         return False
 
@@ -109,7 +108,7 @@ def validate_phonenum_pn(num, cc):
         parsed_num = phonenumbers.parse(num, cc)
         return phonenumbers.is_valid_number(parsed_num)
     except:
-        if verbose:
+        if config.configdict["verbose"]:
             print(f"ERROR Invalid number: {num} or CC {cc}")
         return False    
     
@@ -120,7 +119,7 @@ if __name__ == "__main__":
     # execute only if run as a script
     print("Testing...")
     use_pn_pkg = False
-    if verbose:
+    if config.configdict["verbose"]:
         row = ['joe@gmail.com',"07016730224","UCL","28/05/2004"]
 
         if use_pn_pkg:

@@ -1,7 +1,16 @@
+########################################################################
+# readargs.py
+# Read the arguments from the command line. Arguments not provided will
+# be taken from the config file config.yaml.
+# Note that this uses Python's new 'match' statement which has only been
+# available from v3.10. Ensure you have that version or later installed.
+########################################################################
+
 import sys
 import config
 from help import print_help
 
+# The list of valid operations that can be specified on the command line.
 valid_ops = ["wrangle", "list"]
 
 # Reads a list of arguments or, if none, a file in yaml format.
@@ -28,27 +37,34 @@ def read_args(args):
         i = 1
     # Read remaining arguments starting at second argument
     try:
-        while i < len(args):    
-            if args[i] == '-i':
-                config.configdict["csv-data"] = args[i + 1]
-                i += 1
-            elif args[i] == '-o':
-                config.configdict["csv-vdata"] = args[i + 1]
-                i += 1
-            elif args[i] == '-e':
-                config.configdict["csv-edata"] = args[i + 1]
-                i += 1
-            elif args[i] == '-p':
-                config.configdict["path"] = args[i + 1]
-                i += 1
-            elif args[i] == '-s':
-                config.configdict["sort"] = args[i + 1]
-                i += 1
-            elif args[i] == '-v':
-                config.configdict["verbose"] = args[i + 1]
-                i += 1
-            else:
-                print(f"ERROR Unknown argument {args[i]}")
+        while i < len(args):
+            match args[i]:     
+                case '-i':
+                    config.configdict["csv-data"] = args[i + 1]
+                    i += 1
+                case '-o':
+                    config.configdict["csv-vdata"] = args[i + 1]
+                    i += 1
+                case '-e':
+                    config.configdict["csv-edata"] = args[i + 1]
+                    i += 1
+                case '-p':
+                    config.configdict["path"] = args[i + 1]
+                    i += 1
+                case '-s':
+                    config.configdict["sort"] = args[i + 1]
+                    i += 1
+                case '-v':
+                    val = args[i + 1].capitalize()
+                    if val == "True":
+                        config.configdict["verbose"] = True
+                    elif val == "False":
+                        config.configdict["verbose"] = False
+                    else:
+                        print(f"ERROR Unknown argument {args[i+1]}")
+                    i += 1
+                case _:
+                    print(f"ERROR Unknown argument {args[i]}")
             i += 1    
     except IndexError:
         print("ERROR Invalid or missing argument")

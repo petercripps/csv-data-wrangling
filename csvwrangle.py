@@ -17,9 +17,6 @@ import config
 from readargs import read_args
 from rules import validate_dob, validate_email, validate_uni, validate_phonenum
 
-# Set verbose to True to get additional info out of this file
-verbose = config.configdict["verbose"]
-
 # Start the program having loaded up parameters into config.configdict.
 # Parameters:
 #   None 
@@ -85,8 +82,10 @@ def csv_wrangle_split():
         # When done write out the valid and invalid dataframes as CSV files.
         valid_df.to_csv(config.configdict["path"] + config.configdict["csv-vdata"], index=False)
         invalid_df.to_csv(config.configdict["path"] + config.configdict["csv-edata"], index=False)
+    except IsADirectoryError:
+        print(__file__, f"ERROR Invalid path or file")
     except FileNotFoundError:
-        print(__file__, f"ERROR Invalid file {config.configdict['csv-data']} or path {config.configdict['path']}")
+        print(__file__, f"ERROR Invalid file")
 
 # Wrangle a CSV file according to a set of rules. Read the CSV into a new Pandas DataFrame, create
 # an additional DataFrame for writing validated rows in the CSV with an additional column indicating
@@ -122,8 +121,10 @@ def csv_wrangle():
             output_df = csv_sort(config.configdict['sort'], output_df)
         # When done write out the output dataframe as a CSV files.
         output_df.to_csv(config.configdict["path"] + config.configdict["csv-vdata"], index=False)
+    except IsADirectoryError:
+        print(__file__, f"ERROR Invalid path or file")
     except FileNotFoundError:
-        print(__file__, f"ERROR Invalid file {config.configdict['csv-data']} or path {config.configdict['path']}")
+        print(__file__, f"ERROR Invalid file")
 
 # Validate a single row from a dataframe using approriate rules. Note the indexes used in the rules
 # will need updating here if they are changed in the config YAML.
