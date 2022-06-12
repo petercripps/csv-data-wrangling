@@ -11,7 +11,7 @@ import config
 from help import print_help
 
 # The list of valid operations that can be specified on the command line.
-valid_ops = ["wrangle", "list"]
+valid_ops = ["analyse", "list"]
 
 # Reads a list of arguments or, if none, a file in yaml format.
 # Parameters:

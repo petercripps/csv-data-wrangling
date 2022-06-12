@@ -12,7 +12,7 @@ from time import strftime
 from turtle import width
 from numpy import blackman 
 import config
-from csvwrangle import run_csv_wrangle
+from csvanalyse import run_csv_analyse
 import os
 window = tk.Tk()
 window.title(" Vodbull .CSV Cleaner ")
@@ -22,13 +22,13 @@ window.geometry("700x400")
 border_effects = {
 "sunken": tk.SUNKEN}
 
-def wrangle_callback():
+def analyse_callback():
     config.configdict["path"] = filepath
-    run_csv_wrangle()
+    run_csv_analyse()
 
-wrangle_button = tk.Button(
-    text="Wrangle",
-    command=wrangle_callback,
+analyse_button = tk.Button(
+    text="Analyse",
+    command=analyse_callback,
     width=30,
     height=3,
     bg="grey",
@@ -103,7 +103,7 @@ quit_button = tk.Button(
     fg="black"
 )
 
-wrangle_button.place(x=15,y=330)
+analyse_button.place(x=15,y=330)
 sort_button.place(x=240,y=330)
 file_button.place(x=15,y=10)
 help_button.place(x=465,y=330)

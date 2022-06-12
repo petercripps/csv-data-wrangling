@@ -1,6 +1,6 @@
 ########################################################################
-# csvwrangle.py
-# Entry point for command line version of CSV data wrangling program. 
+# csvanalyser.py
+# Entry point for command line version of CSV data analysis program. 
 # Ensure these packages are installed using pip3:
 # pip3 install numpy
 # pip3 install pandas
@@ -22,15 +22,15 @@ from rules import validate_dob, validate_email, validate_uni, validate_phonenum
 #   None 
 # Returns:
 #   None
-def run_csv_wrangle():
+def run_csv_analyse():
     try:
         if config.configdict != {}:
-            if config.configdict["operation"] == "wrangle":
+            if config.configdict["operation"] == "analyse":
                 if config.configdict["csv-edata"] == "":
-                    csv_wrangle()
+                    csv_analyse()
                     print(f"Output in {config.configdict['csv-vdata']}")
                 else:
-                    csv_wrangle_split()
+                    csv_analyse_split()
                     print(f"Output in {config.configdict['csv-vdata']} and {config.configdict['csv-edata']}")
             elif config.configdict["operation"] == "list":
                 csv_list()
@@ -39,7 +39,7 @@ def run_csv_wrangle():
     except KeyError:
         print(__file__, "ERROR Missing key in YAML file")
 
-# Wrangle a CSV file according to a set of rules. Read the CSV into a new Pandas DataFrame, create
+# Analyse a CSV file according to a set of rules. Read the CSV into a new Pandas DataFrame, create
 # two additional DataFrames, one for valid rows in the CSV and another for invalid rows. Also set the
 # column names to shorter nouns which will be used for indexing. These can be changed in the YAML
 # but, for now, will need to be modified in code as they are currently hardcoded.
@@ -47,7 +47,7 @@ def run_csv_wrangle():
 #   None 
 # Returns:
 #   None
-def csv_wrangle_split():
+def csv_analyse_split():
     try:
         # Read CSV data as a panda dataframe. Use dtype=object to preserve and not interpret dtype
         df1 = pd.read_csv(config.configdict["path"] + config.configdict["csv-data"],dtype=object)
@@ -87,7 +87,7 @@ def csv_wrangle_split():
     except FileNotFoundError:
         print(__file__, f"ERROR Invalid file")
 
-# Wrangle a CSV file according to a set of rules. Read the CSV into a new Pandas DataFrame, create
+# Analyse a CSV file according to a set of rules. Read the CSV into a new Pandas DataFrame, create
 # an additional DataFrame for writing validated rows in the CSV with an additional column indicating
 # which cells are in error. Also set the column names to shorter nouns which will be used for indexing.
 # These can be changed in the YAML but, for now, will need to be modified in code as they are currently
@@ -96,7 +96,7 @@ def csv_wrangle_split():
 #   None 
 # Returns:
 #   None
-def csv_wrangle():
+def csv_analyse():
     try:
         # Read CSV data as a panda dataframe. Use dtype=object to preserve and not interpret dtype
         df1 = pd.read_csv(config.configdict["path"] + config.configdict["csv-data"],dtype=object)
@@ -188,4 +188,4 @@ if __name__ == "__main__":
     # entry of the returned dictionary.
     read_args(sys.argv)
     # Run the main program
-    run_csv_wrangle()
+    run_csv_analyse()

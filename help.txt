@@ -1,11 +1,11 @@
-'Wrangles' a CSV file by checking each field and depending on validity of field according to a set of
+Analyses a CSV file by checking each field and depending on validity of field according to a set of
 rules writes the line to another CSV file.
 
 General usage: 
-csv-wrangle.py list | wrangle [options]
+csvanalyse.py list | analyse [options]
 
 'list' shows the CSV file. 
-'wrangle' wrangles the CSV file (i.e. applies rules to each field and writes to another CSV file)
+'analyse' analyses the CSV file (i.e. applies rules to each field and writes to another CSV file)
 
 Options are: 
 -i <filename>: String containing file for input data. 
@@ -24,7 +24,7 @@ path: <pathname>>
 csv-data: <filename>
 csv-vdata: <filename>
 csv-edata: <filename>
-operation: 'list' | 'wrangle'
+operation: 'list' | 'analyse'
 col_names: [<columnname>, <columnname>]
 unilist: [<uniname>, <uniname>, <uniname>]
 sort: <col>

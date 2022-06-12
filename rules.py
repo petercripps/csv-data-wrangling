@@ -53,8 +53,9 @@ def validate_email(email):
 #   uni : str - The university to be validated.
 # Returns:
 #   bool - True if valid, False otherwise.
-def validate_uni(uni): 
-    uni = str(uni).replace(" ", "")
+def validate_uni(uni):
+    # Strio leading/trailing whitespace 
+    uni = str(uni).strip()
     if (uni in config.configdict['unilist']):
         return True
     else:
