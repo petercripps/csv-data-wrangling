@@ -13,11 +13,11 @@ col_names:
 - DOB
 - UniYear
 csv-data: vodbull-data-ANON.csv
-csv-edata: vodbull-edata.csv
+csv-edata: ''
 csv-vdata: vodbull-vdata.csv
 operation: analyse
 path: /Users/petercripps/Code/datasets/
-sort: Uni
+sort: UniYear
 unilist:
 - University of Birmingham
 - UoB
@@ -30,4 +30,4 @@ unilist:
 - Nottingham Trent University
 - Sheffield Hallam University
 - Warwick University
-verbose: true
+verbose: false
