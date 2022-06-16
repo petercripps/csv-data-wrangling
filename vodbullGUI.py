@@ -22,6 +22,7 @@ border_effects = {
 
 def analyse_callback():
     # config.configdict["path"] = filepath
+    config.configdict = config.init_config()
     run_csv_analyse()
 
 analyse_button = tk.Button(
