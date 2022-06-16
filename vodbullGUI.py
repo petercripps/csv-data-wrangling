@@ -1,5 +1,4 @@
-
-from ast import Constant
+#from ast import Constant
 from cgitb import text
 from itertools import count
 from logging import root
@@ -7,12 +6,11 @@ import tkinter as tk
 from tkinter import *
 from tkinter import filedialog
 from tkinter.filedialog import askopenfile
-import os
 from time import strftime
 from turtle import width
 from numpy import blackman 
 import config
-from csvanalyse import run_csv_analyse
+from csvanalyser import run_csv_analyse
 import os
 window = tk.Tk()
 window.title(" Vodbull .CSV Cleaner ")
@@ -23,7 +21,7 @@ border_effects = {
 "sunken": tk.SUNKEN}
 
 def analyse_callback():
-    config.configdict["path"] = filepath
+    # config.configdict["path"] = filepath
     run_csv_analyse()
 
 analyse_button = tk.Button(
