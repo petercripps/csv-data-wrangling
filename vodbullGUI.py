@@ -1,5 +1,4 @@
-
-from ast import Constant
+#from ast import Constant
 from cgitb import text
 from itertools import count
 from logging import root
@@ -7,7 +6,6 @@ import tkinter as tk
 from tkinter import *
 from tkinter import filedialog
 from tkinter.filedialog import askopenfile
-import os
 from time import strftime
 from turtle import width
 from numpy import blackman 
@@ -23,7 +21,8 @@ border_effects = {
 "sunken": tk.SUNKEN}
 
 def analyse_callback():
-    config.configdict["path"] = filepath
+    # config.configdict["path"] = filepath
+    config.configdict = config.init_config()
     run_csv_analyse()
 
 analyse_button = tk.Button(
