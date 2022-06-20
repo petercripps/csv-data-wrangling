@@ -12,7 +12,9 @@ def init_config():
         sys.exit("FATAL ERROR Cannot continue")
         return {}
 
+
 configdict = init_config()
+
 
 if __name__ == "__main__":
     # execute only if run as a script

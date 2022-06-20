@@ -12,7 +12,7 @@ from time import strftime
 from turtle import width
 from numpy import blackman 
 import config
-from csvanalyse import run_csv_analyse
+from csvanalyser import run_csv_analyse
 import os
 window = tk.Tk()
 window.title(" Vodbull .CSV Cleaner ")
