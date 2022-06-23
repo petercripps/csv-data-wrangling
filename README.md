@@ -67,8 +67,9 @@ If the input file contains columns which are in a different order then the order
 
 One or more rules can be prevented from running by setting the flag for that rule in the YAML file to 'False' (or unchecking the checkbox in the UI).
 The rules currently available are:
-- Email
-- Uni
-- Mobile
-- DOB
-- UniYear
+- `Email` Checks the email is well-formed.
+- `Uni` Checks the university name is in the list of valid universities in this YAML.
+- `Mobile` Checks the phone number is a valid GB number using basic checks.
+- `MobileExt` Checks the phone number is a valid GB number using extended checks.
+- `DOB` Checks the date of birth makes applicant at least 18,
+- `UniYear` Checks the university year is in the list of valid universitie years in this YAML.

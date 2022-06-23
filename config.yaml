@@ -13,16 +13,17 @@ col_names:
 - DOB
 - UniYear
 csv-data: vodbull-data-ANON.csv
-csv-edata: ''
+csv-edata: vodbull-edata.csv
 csv-vdata: vodbull-vdata.csv
 operation: analyse
 path: /Users/petercripps/Code/datasets/
 rules:
-  DOB: true
-  Email: true
+  DOB: false
+  Email: false
   Mobile: true
-  Uni: true
-  UniYear: true
+  MobileExt: true
+  Uni: false
+  UniYear: false
 sort: UniYear
 unilist:
 - University of Birmingham

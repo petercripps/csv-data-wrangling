@@ -15,7 +15,7 @@ import sys
 import csv
 import config
 from readargs import read_args
-from rules import validate_dob, validate_email, validate_uni, validate_phonenum, validate_uniyear
+from rules import validate_dob, validate_email, validate_uni, validate_phonenum, validate_uniyear, validate_phonenum_ext
 
 # Start the program having loaded up parameters into config.configdict.
 # Parameters:
@@ -151,6 +151,9 @@ def validate_row(rownum, row):
     if (config.configdict["rules"]["Mobile"]):
         if not validate_phonenum(row["Mobile"]):
             err_str = err_str + "Mobile "
+    if (config.configdict["rules"]["MobileExt"]):
+        if not validate_phonenum_ext(row["Mobile"],'GB'):
+            err_str = err_str + "MobileExt "
     if (config.configdict["rules"]["UniYear"]):
         if not validate_uniyear(row["UniYear"]):
             err_str = err_str + "UniYear"

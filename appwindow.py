@@ -101,6 +101,7 @@ def save():
     config.configdict["rules"]["DOB"] = bool(check_dobrule.get())
     config.configdict["rules"]["UniYear"] = bool(check_uniyearrule.get())
     config.configdict["rules"]["Mobile"] = bool(check_mobilerule.get())
+    config.configdict["rules"]["MobileExt"] = bool(check_mobilerule_ext.get())
     # Save to YAML file
     with open(yfile, 'w') as file:
         data = yaml.dump(config.configdict, file)
@@ -122,6 +123,7 @@ check_emailrule = tk.IntVar()
 check_dobrule = tk.IntVar()
 check_uniyearrule = tk.IntVar()
 check_mobilerule = tk.IntVar()
+check_mobilerule_ext = tk.IntVar()
 
 # 3. Add logo (keep this in the main programme, not as a function)
 img = ImageTk.PhotoImage(Image.open("vodbulllogo.png"))
@@ -138,8 +140,9 @@ tk.Label(win, text="Select rules:").grid(row=7, column=0, sticky=tk.W, columnspa
 add_checkbox(win,0,8,check_unirule,"Uni",config.configdict["rules"]["Uni"])
 add_checkbox(win,1,8,check_emailrule,"Email",config.configdict["rules"]["Email"])
 add_checkbox(win,2,8,check_dobrule,"DOB",config.configdict["rules"]["DOB"])
-add_checkbox(win,0,9,check_mobilerule,"Mobile",config.configdict["rules"]["Mobile"])
-add_checkbox(win,1,9,check_uniyearrule,"UniYear",config.configdict["rules"]["UniYear"])
+add_checkbox(win,0,9,check_uniyearrule,"UniYear",config.configdict["rules"]["UniYear"])
+add_checkbox(win,1,9,check_mobilerule,"Mobile",config.configdict["rules"]["Mobile"])
+add_checkbox(win,2,9,check_mobilerule_ext,"Mobile (Ext)",config.configdict["rules"]["Mobile"])
 
 # 7. Add buttons
 add_blank_line(win, 10)

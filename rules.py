@@ -119,7 +119,7 @@ def validate_int(snum):
 #   cc : valid ISO country code
 # Returns:
 #   bool - True if valid, False otherwise.
-def validate_phonenum_pn(num, cc):
+def validate_phonenum_ext(num, cc):
     try:
         parsed_num = phonenumbers.parse(num, cc)
         return phonenumbers.is_valid_number(parsed_num)
@@ -139,7 +139,7 @@ if __name__ == "__main__":
         row = ['joe@gmail.com',"07016730224","UCL","28/05/2004"]
 
         if use_pn_pkg:
-            print(f"Mobile {row[1]} valid (using pn) = {validate_phonenum_pn(row[1],'GB')}")
+            print(f"Mobile {row[1]} valid (using pn) = {validate_phonenum_ext(row[1],'GB')}")
         else:
             print(f"Mobile {row[1]} valid = {validate_phonenum(row[1])}")        
         print(f"Email {row[0]} valid = {validate_email(row[0])}")
