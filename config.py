@@ -22,3 +22,5 @@ if __name__ == "__main__":
     
     if True:
         print(configdict)
+        print(configdict["rules"])
+        print(configdict["rules"]["Uni"])

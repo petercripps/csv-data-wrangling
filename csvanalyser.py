@@ -15,7 +15,7 @@ import sys
 import csv
 import config
 from readargs import read_args
-from rules import validate_dob, validate_email, validate_uni, validate_phonenum
+from rules import validate_dob, validate_email, validate_uni, validate_phonenum, validate_uniyear
 
 # Start the program having loaded up parameters into config.configdict.
 # Parameters:
@@ -127,7 +127,8 @@ def csv_analyse():
         print(__file__, f"ERROR Invalid file")
 
 # Validate a single row from a dataframe using approriate rules. Note the indexes used in the rules
-# will need updating here if they are changed in the config YAML.
+# will need updating here if they are changed in the config YAML. A rule is only run if the flag for that rule
+# in the YAML dictionary 'rules' is 'True'.
 # Parameters:
 #   rownum : Integer - Number of row in file
 #   row : Series - The row containing the elements to be validated.
@@ -138,14 +139,21 @@ def validate_row(rownum, row):
     # Define a null string to contain error codes, will stay as null if no errors
     err_str = ""
     # Run the rules one by one, if error record in err_str
-    if not validate_dob(row["DOB"],18):
-        err_str = err_str + "DOB "
-    if not validate_email(row["Email"]):
-          err_str = err_str + "Email "
-    if not validate_uni(row["Uni"]):
-        err_str = err_str + "Uni "
-    if not validate_phonenum(row["Mobile"]):
-        err_str = err_str + "Mobile"
+    if (config.configdict["rules"]["DOB"]):
+        if not validate_dob(row["DOB"],18):
+            err_str = err_str + "DOB "
+    if (config.configdict["rules"]["Email"]):
+        if not validate_email(row["Email"]):
+            err_str = err_str + "Email "
+    if (config.configdict["rules"]["Uni"]):
+        if not validate_uni(row["Uni"]):
+            err_str = err_str + "Uni "
+    if (config.configdict["rules"]["Mobile"]):
+        if not validate_phonenum(row["Mobile"]):
+            err_str = err_str + "Mobile "
+    if (config.configdict["rules"]["UniYear"]):
+        if not validate_uniyear(row["UniYear"]):
+            err_str = err_str + "UniYear"
 
     return [row, err_str]
 

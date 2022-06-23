@@ -22,7 +22,7 @@ Here's a component model showing the relationships (dependencies) between these 
 
 Download or clone the repo.
 
-The YAML file `config.yaml` contains all the parameters which can be modified. Apart from the column headers of the CSV file these parameters can all be changed from either the UI or the command line.
+The YAML file `config.yaml` contains all the parameters which can be modified.
 
 To run the programme enter one of the following in a terminal window:
 
@@ -42,6 +42,7 @@ Fields in the UI are as follows:
 - `Error file` Name of a separate CSV where all those lines in error are captured. If no file is entered here all error lines will be written to the output files with fields in error identified in a new column called 'Error'.
 - `Sort by` The field to sort output by. This must be ONE of the column names identified in the YAML file (see below).
 - `Verbose` If this is checked more output is provided in the terminal during analysis.
+- `Select rules` Check the box next to the rules you want to run.
 
 Buttons are as follows:
 - `Analyse` Analyse the CSV and output to the output/error file.
@@ -59,6 +60,14 @@ If the input file contains columns which are in a different order then the order
 - OrderRef
 - RepName
 - RepEmail
+- Uni
+- Mobile
+- DOB
+- UniYear
+
+One or more rules can be prevented from running by setting the flag for that rule in the YAML file to 'False' (or unchecking the checkbox in the UI).
+The rules currently available are:
+- Email
 - Uni
 - Mobile
 - DOB

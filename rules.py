@@ -48,19 +48,34 @@ def validate_email(email):
         return False
     return True
 
-# Test for a valid university. Check it is in list of valid universities'.
+# Test for a valid university. Check it is in list of valid universities.
 # Parameters:
 #   uni : str - The university to be validated.
 # Returns:
 #   bool - True if valid, False otherwise.
 def validate_uni(uni):
-    # Strio leading/trailing whitespace 
+    # Strip leading/trailing whitespace 
     uni = str(uni).strip()
     if (uni in config.configdict['unilist']):
         return True
     else:
         if config.configdict["verbose"]:
             print(f"Invalid university: {uni}")
+        return False
+
+# Test for a valid university year. Check it is in list of valid uniyears.
+# Parameters:
+#   uniyear : str - The university year to be validated.
+# Returns:
+#   bool - True if valid, False otherwise.
+def validate_uniyear(uniyear):
+    # Strip leading/trailing whitespace 
+    uniyear = str(uniyear).strip()
+    if (uniyear in config.configdict['uniyear']):
+        return True
+    else:
+        if config.configdict["verbose"]:
+            print(f"Invalid university year: {uniyear}")
         return False
 
 # Test for a valid phone number.

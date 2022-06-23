@@ -17,6 +17,12 @@ csv-edata: ''
 csv-vdata: vodbull-vdata.csv
 operation: analyse
 path: /Users/petercripps/Code/datasets/
+rules:
+  DOB: true
+  Email: true
+  Mobile: true
+  Uni: true
+  UniYear: true
 sort: UniYear
 unilist:
 - University of Birmingham
@@ -30,4 +36,9 @@ unilist:
 - Nottingham Trent University
 - Sheffield Hallam University
 - Warwick University
+uniyear:
+- First
+- Second
+- Third
+- Fourth
 verbose: false

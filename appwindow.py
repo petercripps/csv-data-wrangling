@@ -15,45 +15,45 @@ yfile = "config.yaml"
 # Add entry fields to window
 def add_entry_fields(window):
     # Create the label objects and pack them using grid
-    tk.Label(window, text="Directory", justify=tk.LEFT).grid(row=1, column=0)
-    tk.Label(window, text="Input file", justify=tk.LEFT).grid(row=2, column=0)
-    tk.Label(window, text="Output file", justify=tk.LEFT).grid(row=3, column=0)
-    tk.Label(window, text="Error file", justify=tk.LEFT).grid(row=4, column=0)
-    tk.Label(window, text="Sort by", justify=tk.LEFT).grid(row=5, column=0)
+    tk.Label(window, text="Directory").grid(row=1, column=0, sticky=tk.W)
+    tk.Label(window, text="Input file").grid(row=2, column=0, sticky=tk.W)
+    tk.Label(window, text="Output file").grid(row=3, column=0, sticky=tk.W)
+    tk.Label(window, text="Error file").grid(row=4, column=0, sticky=tk.W)
+    tk.Label(window, text="Sort by").grid(row=5, column=0, sticky=tk.W)
     
     # Create the entry objects and pack them using grid
     e0 = tk.Entry(window, textvariable=fpath)
-    e0.grid(row=1, column=1)
+    e0.grid(row=1, column=1, columnspan=2, sticky=tk.W)
     e0.insert(tk.END, config.configdict["path"])
     e1 = tk.Entry(window, textvariable=ifile)
-    e1.grid(row=2, column=1)
+    e1.grid(row=2, column=1, columnspan=2, sticky=tk.W)
     e1.insert(tk.END, config.configdict["csv-data"])
     e2 = tk.Entry(window, textvariable=vfile)
-    e2.grid(row=3, column=1)
+    e2.grid(row=3, column=1, columnspan=2, sticky=tk.W)
     e2.insert(tk.END, config.configdict["csv-vdata"])
     e3 = tk.Entry(window, textvariable=efile)
-    e3.grid(row=4, column=1)
+    e3.grid(row=4, column=1, columnspan=2, sticky=tk.W)
     e3.insert(tk.END, config.configdict["csv-edata"])
     e4 = tk.Entry(window, textvariable=scol)
-    e4.grid(row=5, column=1)
+    e4.grid(row=5, column=1, columnspan=2, sticky=tk.W)
     e4.insert(tk.END, config.configdict["sort"])
 
 # Add buttons to window
 def add_buttons(window):
-    tk.Button(window, text='Directory', command=directory, padx=2,pady=2).grid(row=1,column=2)
-    tk.Button(window, text='Analyse', command=analyse, width=8, padx=2,pady=2).grid(row=8,column=0)
-    tk.Button(window, text='List', command=list, width=8, padx=2,pady=2).grid(row=8,column=1)
-    tk.Button(window, text="Save", command=save, width=8, padx=2,pady=2).grid(row=8,column=2)
-    tk.Button(window, text="Quit", command=window.destroy, width=8, padx=2,pady=2).grid(row=8,column=3,)
+    tk.Button(window, text='Directory', command=directory, padx=2,pady=2).grid(row=1,column=3, sticky=tk.W)
+    tk.Button(window, text='Analyse', command=analyse, width=8, padx=2,pady=2).grid(row=11,column=0, sticky=tk.W)
+    tk.Button(window, text='List', command=list, width=8, padx=2,pady=2).grid(row=11,column=1, sticky=tk.W)
+    tk.Button(window, text="Save", command=save, width=8, padx=2,pady=2).grid(row=11,column=2, sticky=tk.W)
+    tk.Button(window, text="Quit", command=window.destroy, width=8, padx=2,pady=2).grid(row=11,column=3, sticky=tk.W)
 
-# Add a checkbox to window
-def add_checkbox(window):
-    cb = tk.Checkbutton(window, text = "Verbose", variable=check_verbose, justify=tk.LEFT)
-    if config.configdict["verbose"]:
+# Add checkbox to window
+def add_checkbox(window, rownm, colnm, var, txt,cb_status):
+    cb = tk.Checkbutton(window, text = txt, variable=var)
+    if cb_status:
         cb.select()
     else:
         cb.deselect()
-    cb.grid(column=0, row=6)
+    cb.grid(column=rownm, row=colnm, sticky=tk.W)
 
 # Add a blank line (i.e. a lable with no text)
 def add_blank_line(window, line):
@@ -95,10 +95,12 @@ def save():
     config.configdict["csv-vdata"] = vfile.get()
     config.configdict["csv-edata"] = efile.get()
     config.configdict["sort"] = scol.get()
-    if check_verbose.get() == 1:
-        config.configdict["verbose"] = True
-    else:
-        config.configdict["verbose"] = False
+    config.configdict["verbose"] = bool(check_verbose.get())
+    config.configdict["rules"]["Uni"] = bool(check_unirule.get())
+    config.configdict["rules"]["Email"] = bool(check_emailrule.get())
+    config.configdict["rules"]["DOB"] = bool(check_dobrule.get())
+    config.configdict["rules"]["UniYear"] = bool(check_uniyearrule.get())
+    config.configdict["rules"]["Mobile"] = bool(check_mobilerule.get())
     # Save to YAML file
     with open(yfile, 'w') as file:
         data = yaml.dump(config.configdict, file)
@@ -115,19 +117,32 @@ vfile = tk.StringVar()
 efile = tk.StringVar()
 scol = tk.StringVar()
 check_verbose = tk.IntVar()
+check_unirule = tk.IntVar()
+check_emailrule = tk.IntVar()
+check_dobrule = tk.IntVar()
+check_uniyearrule = tk.IntVar()
+check_mobilerule = tk.IntVar()
 
 # 3. Add logo (keep this in the main programme, not as a function)
 img = ImageTk.PhotoImage(Image.open("vodbulllogo.png"))
-imglabel = tk.Label(win, image=img).grid(row=0, column=0) 
+imglabel = tk.Label(win, image=img).grid(row=0, column=0, sticky=tk.W, columnspan=2) 
 
 # 4. Create entry fields
 add_entry_fields(win)
 
-# 5. Add checkbox
-add_checkbox(win)
+# 5. Add verbose checkbox
+add_checkbox(win,0,6,check_verbose,"Verbose",config.configdict["verbose"])
 
-# 6. Add buttons
-add_blank_line(win, 7)
+# 6. Add rules checkboxes
+tk.Label(win, text="Select rules:").grid(row=7, column=0, sticky=tk.W, columnspan=2)
+add_checkbox(win,0,8,check_unirule,"Uni",config.configdict["rules"]["Uni"])
+add_checkbox(win,1,8,check_emailrule,"Email",config.configdict["rules"]["Email"])
+add_checkbox(win,2,8,check_dobrule,"DOB",config.configdict["rules"]["DOB"])
+add_checkbox(win,0,9,check_mobilerule,"Mobile",config.configdict["rules"]["Mobile"])
+add_checkbox(win,1,9,check_uniyearrule,"UniYear",config.configdict["rules"]["UniYear"])
+
+# 7. Add buttons
+add_blank_line(win, 10)
 add_buttons(win)
 
 # 7. Run it
